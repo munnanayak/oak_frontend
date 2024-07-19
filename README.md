@@ -1,1 +1,1 @@
-# oak_frontend
+# hotel-starter
