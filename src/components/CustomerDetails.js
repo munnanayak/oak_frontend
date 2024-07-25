@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
-import { Box, Stack, Input, Button, FormControl, FormLabel, Text, Heading } from '@chakra-ui/react';
-import axios from 'axios';
+import React, { useState } from "react";
+import {
+  Box,
+  Stack,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  Text,
+  Heading,
+} from "@chakra-ui/react";
+import axios from "axios";
 
 const CustomerDetails = () => {
   const [customerDetails, setCustomerDetails] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    address: '',
-    checkInDate: '',
-    checkOutDate: '',
+    name: "",
+    email: "",
+    contact: "",
+    address: "",
+    checkInDate: "",
+    checkOutDate: "",
     guests: 1,
-    roomType: 'Deluxe Room',
+    roomType: "Deluxe Room",
   });
   const [orderId, setOrderId] = useState(null);
   const [amount, setAmount] = useState(0); // Define the amount state
@@ -20,7 +29,7 @@ const CustomerDetails = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCustomerDetails(prevState => ({ ...prevState, [name]: value }));
+    setCustomerDetails((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const calculateAmounts = (baseAmount) => {
@@ -33,7 +42,10 @@ const CustomerDetails = () => {
   const handleSubmit = async () => {
     try {
       // Store customer details in the backend
-      await axios.post("http://localhost:4000/api/customerDetails", customerDetails);
+      await axios.post(
+        "http://localhost:4000/api/customerDetails",
+        customerDetails
+      );
       console.log("Customer details submitted successfully.");
     } catch (error) {
       console.error("Error submitting customer details:", error);
@@ -43,10 +55,15 @@ const CustomerDetails = () => {
   const handleBookNow = async () => {
     try {
       // Fetch Razorpay key from backend
-      const { data: { key } } = await axios.get("http://localhost:4000/api/getkey");
+      const {
+        data: { key },
+      } = await axios.get("http://localhost:4000/api/getkey");
 
       // Create an order with the backend
-      const { data: { order } } = await axios.post("http://localhost:4000/api/checkout", {
+      const {
+        data: { order },
+      } = await axios.post("http://localhost:4000/api/v1/checkout", {
+        amount: 1000,
         // amount: 1000 // Update this value dynamically as needed
       });
 
@@ -70,14 +87,14 @@ const CustomerDetails = () => {
         prefill: {
           name: customerDetails.name,
           email: customerDetails.email,
-          contact: customerDetails.contact
+          contact: customerDetails.contact,
         },
         notes: {
-          address: customerDetails.address
+          address: customerDetails.address,
         },
         theme: {
-          color: "#121212"
-        }
+          color: "#121212",
+        },
       };
 
       // Initialize Razorpay instance and open payment modal
@@ -89,9 +106,23 @@ const CustomerDetails = () => {
   };
 
   return (
-    <Stack direction={['column', 'row']} spacing={6} p={6} className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <Box flex="1" p={8} borderWidth={1} borderRadius="md" boxShadow="md" className="bg-white shadow-md rounded-lg">
-        <Heading as="h1" size="lg" mb={6} textAlign="center" color="teal.500">Customer Details</Heading>
+    <Stack
+      direction={["column", "row"]}
+      spacing={6}
+      p={6}
+      className="min-h-screen bg-gray-100 flex items-center justify-center"
+    >
+      <Box
+        flex="1"
+        p={8}
+        borderWidth={1}
+        borderRadius="md"
+        boxShadow="md"
+        className="bg-white shadow-md rounded-lg"
+      >
+        <Heading as="h1" size="lg" mb={6} textAlign="center" color="teal.500">
+          Customer Details
+        </Heading>
         <FormControl id="name" mb={4}>
           <FormLabel color="teal.700">Name</FormLabel>
           <Input
@@ -145,16 +176,45 @@ const CustomerDetails = () => {
         </Button>
       </Box>
 
-      <Box flex="1" p={8} borderWidth={1} borderRadius="md" boxShadow="md" className="bg-white shadow-md rounded-lg">
-        <Text fontSize="xl" mb={4} color="teal.700">Payment Summary</Text>
-        <Text mb={2}><strong>Order ID:</strong> {orderId}</Text> {/* Display the order ID */}
-        <Text mb={2}><strong>Amount:</strong> ₹{amount}</Text> {/* Display the amount */}
-        <Text mb={2}><strong>Check-in Date:</strong> {customerDetails.checkInDate}</Text>
-        <Text mb={2}><strong>Check-out Date:</strong> {customerDetails.checkOutDate}</Text>
-        <Text mb={2}><strong>Guests:</strong> {customerDetails.guests}</Text>
-        <Text mb={2}><strong>Room Type:</strong> {customerDetails.roomType}</Text>
-        <Text mb={2}><strong>Tax:</strong> ₹{tax}</Text> {/* Display tax */}
-        <Text mb={2}><strong>Total Amount:</strong> ₹{totalAmount}</Text> {/* Display total amount */}
+      <Box
+        flex="1"
+        p={8}
+        borderWidth={1}
+        borderRadius="md"
+        boxShadow="md"
+        className="bg-white shadow-md rounded-lg"
+      >
+        <Text fontSize="xl" mb={4} color="teal.700">
+          Payment Summary
+        </Text>
+        <Text mb={2}>
+          <strong>Order ID:</strong> {orderId}
+        </Text>{" "}
+        {/* Display the order ID */}
+        <Text mb={2}>
+          <strong>Amount:</strong> ₹{amount}
+        </Text>{" "}
+        {/* Display the amount */}
+        <Text mb={2}>
+          <strong>Check-in Date:</strong> {customerDetails.checkInDate}
+        </Text>
+        <Text mb={2}>
+          <strong>Check-out Date:</strong> {customerDetails.checkOutDate}
+        </Text>
+        <Text mb={2}>
+          <strong>Guests:</strong> {customerDetails.guests}
+        </Text>
+        <Text mb={2}>
+          <strong>Room Type:</strong> {customerDetails.roomType}
+        </Text>
+        <Text mb={2}>
+          <strong>Tax:</strong> ₹{tax}
+        </Text>{" "}
+        {/* Display tax */}
+        <Text mb={2}>
+          <strong>Total Amount:</strong> ₹{totalAmount}
+        </Text>{" "}
+        {/* Display total amount */}
         <Button colorScheme="teal" w="full" mt={4} onClick={handleBookNow}>
           Book Now
         </Button>

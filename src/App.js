@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer.js";
 import PreHeader from "./components/PreHeader.js";
@@ -29,9 +34,9 @@ const App = () => {
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/customerdetails" element={<CustomerDetails />} />
-
         <Route path="/homereview" element={<HomeReview />} />
-        <Route path="/payment-success" element={<PaymentSuccess />} /> {/* Added route */}
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />{" "}
+        {/* Added route */}
       </Routes>
       <ConditionalFooter />
     </Router>
@@ -40,7 +45,8 @@ const App = () => {
 
 const ConditionalHeaders = () => {
   const location = useLocation();
-  const isHomePath = location.pathname === "/" || location.pathname === "/homeheader";
+  const isHomePath =
+    location.pathname === "/" || location.pathname === "/homeheader";
   const isCustomerDetailsPath = location.pathname === "/customerdetails"; // Fixed spelling
 
   if (isCustomerDetailsPath) return null;
